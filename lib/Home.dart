@@ -19,12 +19,24 @@ class _HomeState extends State<Home> {
   List<Anotacao> _notes = <Anotacao>[];
 
 
-  void _showAddScreen(){
+  void _showAddScreen({Anotacao? note}){
+
+    String textSaveUpdate = "";
+    if(note == null){
+      _titleController.clear();
+      _descriptionController.clear();
+      textSaveUpdate = "Salvar";
+    }else {
+      _titleController.text = note.titulo!;
+      _descriptionController.text = note.descricao!;
+      textSaveUpdate = "Atualizar";
+    }
+
     showDialog(
         context: context,
         builder: (context){
           return AlertDialog(
-            title: Text("Adicionar anotação"),
+            title: Text("$textSaveUpdate anotação"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -56,7 +68,7 @@ class _HomeState extends State<Home> {
                   _saveNote();
                   Navigator.pop(context);
                 },
-                child: Text("Salvar"),
+                child: Text(textSaveUpdate),
               )
             ],
           );
@@ -133,7 +145,7 @@ class _HomeState extends State<Home> {
                           children: [
                             GestureDetector(
                               onTap: (){
-
+                                _showAddScreen(note: note);
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(right: 16),
