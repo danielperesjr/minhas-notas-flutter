@@ -5,7 +5,7 @@ import 'package:path/path.dart';
 class AnotacaoHelper{
   static final String nmTable = "tbanotacao";
   static final AnotacaoHelper _anotacaoHelper = AnotacaoHelper._internal();
-  late Database _db;
+  Database? _db;
 
   factory AnotacaoHelper(){
     return _anotacaoHelper;
@@ -23,7 +23,7 @@ class AnotacaoHelper{
     }
   }
 
-  void onCreate(Database db, int version) async {
+  void _onCreate(Database db, int version) async {
     String sql =
         "CREATE TABLE $nmTable ("
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -37,7 +37,7 @@ class AnotacaoHelper{
   Future<Database> initializeDb() async{
     final pathDataBase = await getDatabasesPath();
     final dataBase = join(pathDataBase, "minhas_notas.db");
-    var db = await openDatabase(dataBase, version: 1, onCreate: onCreate);
+    var db = await openDatabase(dataBase, version: 1, onCreate: _onCreate);
     return db;
   }
 

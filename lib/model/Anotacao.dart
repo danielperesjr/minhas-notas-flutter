@@ -1,8 +1,8 @@
 class Anotacao {
-  late int id;
-  late String titulo;
-  late String descricao;
-  late String dtanotacao;
+  int? id;
+  String? titulo;
+  String? descricao;
+  String? dtanotacao;
 
   Anotacao(this.titulo, this.descricao, this.dtanotacao);
 
