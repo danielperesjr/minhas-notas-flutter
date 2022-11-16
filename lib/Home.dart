@@ -128,6 +128,35 @@ class _HomeState extends State<Home> {
                       child: ListTile(
                         title: Text(note.titulo!),
                         subtitle: Text("${_dateFormat(note.dtanotacao!)} - ${note.descricao}"),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GestureDetector(
+                              onTap: (){
+
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 16),
+                                child: Icon(
+                                  Icons.edit,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: (){
+
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 0),
+                                child: Icon(
+                                  Icons.remove_circle,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   }
