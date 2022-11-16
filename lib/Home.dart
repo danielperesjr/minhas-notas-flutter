@@ -14,6 +14,8 @@ class _HomeState extends State<Home> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   var _db = AnotacaoHelper();
+  List<Anotacao> _notes = <Anotacao>[];
+
 
   void _showAddScreen(){
     showDialog(
@@ -62,6 +64,17 @@ class _HomeState extends State<Home> {
 
   void _recoverNote() async{
     List recoveredNotes = await _db.recoverNote();
+
+    List<Anotacao> tempList = <Anotacao>[];
+    for(var item in recoveredNotes){
+      Anotacao anotacao = Anotacao.fromMap(item);
+      tempList.add(anotacao);
+    }
+
+    setState(() {
+      _notes = tempList;
+    });
+
   }
 
   void _saveNote() async {
@@ -71,6 +84,13 @@ class _HomeState extends State<Home> {
     int result = await _db.saveNote(anotacao);
     _titleController.clear();
     _descriptionController.clear();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _recoverNote();
   }
 
   @override
