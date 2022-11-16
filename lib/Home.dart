@@ -8,6 +8,54 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+
+  void _showAddScreen(){
+    showDialog(
+        context: context,
+        builder: (context){
+          return AlertDialog(
+            title: Text("Adicionar anotação"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: _titleController,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    labelText: "Título",
+                    hintText: "Digite o título"
+                  ),
+                ),
+                TextField(
+                  controller: _descriptionController,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                      labelText: "Descrição",
+                      hintText: "Digite a descrição"
+                  ),
+                )
+              ],
+            ),
+            actions: [
+              MaterialButton(
+                  onPressed: () => Navigator.pop(context),
+                child: Text("Cancelar"),
+              ),
+              MaterialButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                child: Text("Salvar"),
+              )
+            ],
+          );
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +68,9 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
         child: Icon(Icons.add),
-        onPressed: (){},
+        onPressed: (){
+          _showAddScreen();
+        },
       ),
     );
   }
