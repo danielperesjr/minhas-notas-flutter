@@ -47,6 +47,17 @@ class AnotacaoHelper{
     return result;
   }
 
+  Future<int> updateNote(Anotacao anotacao) async {
+    var dataBase = await db;
+    int result = await dataBase.update(
+      nmTable,
+      anotacao.toMap(),
+      where: "id = ?",
+      whereArgs: [anotacao.id]
+    );
+    return result;
+  }
+
   Future<List> recoverNote() async {
     var dataBase = await db;
     String sql = "SELECT * FROM $nmTable ORDER BY dtanotacao DESC";
