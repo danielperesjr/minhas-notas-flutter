@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
               ),
               MaterialButton(
                 onPressed: (){
-                  _saveNote();
+                  _saveUpdateNote(selectedNote: note!);
                   Navigator.pop(context);
                 },
                 child: Text(textSaveUpdate),
@@ -91,12 +91,20 @@ class _HomeState extends State<Home> {
 
   }
 
-  void _saveNote() async {
+  void _saveUpdateNote({Anotacao? selectedNote}) async {
 
     String title = _titleController.text;
     String description = _descriptionController.text;
-    Anotacao note = Anotacao(title, description, DateTime.now().toString());
-    int result = await _db.saveNote(note);
+
+    if(selectedNote == null){
+      Anotacao note = Anotacao(title, description, DateTime.now().toString());
+      int result = await _db.saveNote(note);
+    }else{
+      selectedNote.titulo     = title;
+      selectedNote.descricao  = description;
+      selectedNote.dtanotacao = DateTime.now().toString();
+      int result = await _db.updateNote(selectedNote);
+    }
 
     _titleController.clear();
     _descriptionController.clear();
