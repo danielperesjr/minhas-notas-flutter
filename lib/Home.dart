@@ -78,12 +78,16 @@ class _HomeState extends State<Home> {
   }
 
   void _saveNote() async {
-    String _title = _titleController.text;
-    String _description = _descriptionController.text;
-    Anotacao anotacao = Anotacao(_title, _description, DateTime.now().toString());
-    int result = await _db.saveNote(anotacao);
+
+    String title = _titleController.text;
+    String description = _descriptionController.text;
+    Anotacao note = Anotacao(title, description, DateTime.now().toString());
+    int result = await _db.saveNote(note);
+
     _titleController.clear();
     _descriptionController.clear();
+
+    _recoverNote();
   }
 
   @override
@@ -100,7 +104,24 @@ class _HomeState extends State<Home> {
         title: Text("Minhas Notas"),
         backgroundColor: Colors.green,
       ),
-      body: Container(),
+      body: Column(
+        children: [
+          Expanded(
+              child: ListView.builder(
+                itemCount: _notes.length,
+                  itemBuilder: (context, index){
+                  final note = _notes[index];
+                    return Card(
+                      child: ListTile(
+                        title: Text(note.titulo!),
+                        subtitle: Text("${note.dtanotacao} - ${note.descricao}"),
+                      ),
+                    );
+                  }
+              )
+          )
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
