@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:minhas_notas/helper/AnotacaoHelper.dart';
+import 'package:minhas_notas/model/Anotacao.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class _HomeState extends State<Home> {
 
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+  var _db = AnotacaoHelper();
 
   void _showAddScreen(){
     showDialog(
@@ -46,6 +49,7 @@ class _HomeState extends State<Home> {
               ),
               MaterialButton(
                 onPressed: (){
+                  _saveNote();
                   Navigator.pop(context);
                 },
                 child: Text("Salvar"),
@@ -54,6 +58,19 @@ class _HomeState extends State<Home> {
           );
         }
     );
+  }
+
+  void _recoverNote() async{
+    List recoveredNotes = await _db.recoverNote();
+  }
+
+  void _saveNote() async {
+    String _title = _titleController.text;
+    String _description = _descriptionController.text;
+    Anotacao anotacao = Anotacao(_title, _description, DateTime.now().toString());
+    int result = await _db.saveNote(anotacao);
+    _titleController.clear();
+    _descriptionController.clear();
   }
 
   @override
