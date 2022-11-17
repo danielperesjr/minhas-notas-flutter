@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
               ),
               MaterialButton(
                 onPressed: (){
-                  _saveUpdateNote(selectedNote: note!);
+                  _saveUpdateNote(selectedNote: note);
                   Navigator.pop(context);
                 },
                 child: Text(textSaveUpdate),
@@ -109,6 +109,11 @@ class _HomeState extends State<Home> {
     _titleController.clear();
     _descriptionController.clear();
 
+    _recoverNote();
+  }
+
+  void _deleteNote(int id) async {
+    await _db.deleteNote(id);
     _recoverNote();
   }
 
@@ -165,7 +170,7 @@ class _HomeState extends State<Home> {
                             ),
                             GestureDetector(
                               onTap: (){
-
+                                _deleteNote(note.id!);
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(right: 0),
