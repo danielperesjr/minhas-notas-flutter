@@ -65,4 +65,14 @@ class AnotacaoHelper{
     return notes;
   }
 
+  Future<int> deleteNote(int id) async {
+    var dataBase = await db;
+    int result = await dataBase.delete(
+      nmTable,
+      where: "id = ?",
+      whereArgs: [id]
+    );
+    return result;
+  }
+
 }
